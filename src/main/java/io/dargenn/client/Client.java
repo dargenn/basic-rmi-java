@@ -5,10 +5,10 @@ import io.dargenn.common.SecurityUtils;
 import io.dargenn.server.Calculator;
 
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.text.MessageFormat;
 
 public class Client {
@@ -31,8 +31,7 @@ public class Client {
                 additionResult, subtractionResult, multiplicationResult, divisionResult));
     }
 
-    private static Calculator getCalculator() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry();
-        return (Calculator) registry.lookup(ObjectNames.CALCULATOR.name());
+    private static Calculator getCalculator() throws RemoteException, NotBoundException, MalformedURLException {
+        return (Calculator) Naming.lookup("//192.168.0.103/" + (ObjectNames.CALCULATOR.name()));
     }
 }
