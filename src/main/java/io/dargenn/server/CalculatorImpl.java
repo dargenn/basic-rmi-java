@@ -4,6 +4,8 @@ import io.dargenn.common.ObjectNames;
 import io.dargenn.common.SecurityUtils;
 
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -35,7 +37,8 @@ public class CalculatorImpl implements Calculator {
         bindCalculator();
     }
 
-    private static void bindCalculator() throws RemoteException {
+    private static void bindCalculator() throws RemoteException, MalformedURLException {
+        System.setProperty("java.rmi.server.hostname", "192.168.0.103");
         Calculator calculator = new CalculatorImpl();
         Calculator stub = (Calculator) UnicastRemoteObject.exportObject(calculator, Registry.REGISTRY_PORT);
         Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
